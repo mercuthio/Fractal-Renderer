@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado\imgui">
+      <UniqueIdentifier>{70fce41d-f70f-4d5d-a9d4-dc76f964cc7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\imgui">
+      <UniqueIdentifier>{779a97a8-c7ac-4dd9-96c8-196ce3ec954c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Fractals-OpenGL.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="LibsManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="FractalGenerator.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Parameters.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_demo.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_draw.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_impl_glfw.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_impl_opengl3.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_tables.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib\IMGUI\imgui_widgets.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LibsManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Parameters.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="FractalGenerator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imgui_impl_glfw.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imgui_impl_opengl3.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imgui_impl_opengl3_loader.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imconfig.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imgui.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imgui_internal.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imstb_rectpack.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imstb_textedit.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\IMGUI\imstb_truetype.h">
+      <Filter>Archivos de encabezado\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
