@@ -6,7 +6,6 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "ShaderManager.h"
 
 using namespace ImGui;
 
@@ -23,6 +22,8 @@ public:
 	void AddSliderInt(const char* text, int *value, int start, int end);
 	void AddSliderFloat(const char* text, float* value, float start, float end);
 	void AddColorPicker(const char* text, float* value);
+	void AddCheckbox(const char* text, bool* value);
+	void AddSameLine();
 
 	void FinishWindow();
 	void RenderWindow();

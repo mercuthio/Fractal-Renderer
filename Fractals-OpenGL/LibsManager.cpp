@@ -16,6 +16,7 @@ void LibsManager::Initialize()
     try
     {
         InitGLFW();
+        InitOpenGL();
         InitialiseWindow(WIDTH, HEIGHT, MAIN_WINDOW_NAME);
 
         int bufferWidth, bufferHeight;
@@ -46,6 +47,13 @@ void LibsManager::InitGLFW()
         glfwTerminate();
         throw exception("GLFW initialisation failed");
     }
+}
+
+void LibsManager::InitOpenGL()
+{
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
 void LibsManager::InitialiseWindow(const int width, const int height, const char* windowName)
@@ -85,6 +93,11 @@ void LibsManager::StartGUI()
     imGuiManager->StartWindow(CONF_WINDOW_NAME, (float)CONF_WIDTH, (float)CONF_HEIGHT);
 }
 
+void LibsManager::AddText(const char* text)
+{
+    imGuiManager->AddText(text);
+}
+
 void LibsManager::AddIntSlider(const char* text, int* value, int start, int end)
 {
     imGuiManager->AddSliderInt(text, value, start, end);
@@ -106,6 +119,16 @@ void LibsManager::AddColorPicker(const char* text, float* value)
     imGuiManager->AddColorPicker(text, value);
 }
 
+void LibsManager::AddCheckBox(const char* text, bool* value)
+{
+    imGuiManager->AddCheckbox(text, value);
+}
+
+void LibsManager::AddSameLine()
+{
+    imGuiManager->AddSameLine();
+}
+
 void LibsManager::FinishGUI()
 {
     imGuiManager->FinishWindow();
@@ -114,4 +137,24 @@ void LibsManager::FinishGUI()
 void LibsManager::RenderGUI()
 {
     imGuiManager->RenderWindow();
+}
+
+double LibsManager::GetFPS()
+{
+    UpdateFPS();
+    return fps;
+}
+
+void LibsManager::UpdateFPS()
+{
+    double currentTime = glfwGetTime();
+    double deltaTime = currentTime - lastTime;
+    frameCount++;
+
+    if (deltaTime >= 1.0) {
+        fps = frameCount / deltaTime;
+
+        frameCount = 0;
+        lastTime = currentTime;
+    }
 }

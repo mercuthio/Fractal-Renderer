@@ -171,7 +171,7 @@
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="LibsManager.cpp" />
     <ClCompile Include="Parameters.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\IMGUI\imconfig.h" />
@@ -187,7 +187,7 @@
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="LibsManager.h" />
     <ClInclude Include="Parameters.h" />
-    <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

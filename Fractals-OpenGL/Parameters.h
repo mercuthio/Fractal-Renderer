@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string.h>
 
-#include "ShaderManager.h"
+#include "Shader.h"
 
 using namespace std;
 using namespace glm;
@@ -20,11 +20,17 @@ extern int ITERATIONS;
 extern const int MAX_ITERATIONS;
 
 extern vec2 CONSTANT;
+extern bool INCREASE_CONSTANT_X;
+extern bool INCREASE_CONSTANT_Y;
+extern float CONSTANT_INCREASE;
 extern const float MAX_CONSTANT;
 extern const float MIN_CONSTANT;
 
+extern vec2 FOCAL_POINT;
+
 extern int ZOOM;
 extern float ZOOM_SPEED;
+extern float SCALE;
 
 extern const char* MAIN_WINDOW_NAME;
 extern const char* CONF_WINDOW_NAME;

@@ -1,6 +1,20 @@
 #include "FractalGenerator.h"
 
-FractalGenerator::FractalGenerator() {}
+FractalGenerator::FractalGenerator() 
+{
+	fractalShader = nullptr;
+}
+
+FractalGenerator::FractalGenerator(const char* vShaderFile, const char* fShaderFile)
+{
+	fractalShader = new Shader();
+	fractalShader->CreateFromFiles(vShaderFile, fShaderFile);
+}
+
+FractalGenerator::~FractalGenerator()
+{
+	delete fractalShader;
+}
 
 void FractalGenerator::Display()
 {
@@ -16,21 +30,38 @@ void FractalGenerator::Display()
 	glFlush();
 }
 
+void FractalGenerator::DisplayFromShader()
+{
+	if (fractalShader == nullptr)
+	{
+		cout << "ERROR: FractalShader not initialized" << endl;
+		return;
+	}
+
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	UpdateConstant();
+	UpdateZoom();
+	fractalShader->UpdateParameters();
+	fractalShader->UseVAO();	
+}
+
 void FractalGenerator::Move(Movement type)
 {
 	switch (type)
 	{
 	case Movement::UP:
-		focalPoint.y += MOVE_SPEED;
+		FOCAL_POINT.y += MOVE_SPEED;
 		break;
 	case Movement::LEFT:
-		focalPoint.x -= MOVE_SPEED;
+		FOCAL_POINT.x -= MOVE_SPEED;
 		break;
 	case Movement::RIGHT:
-		focalPoint.x += MOVE_SPEED;
+		FOCAL_POINT.x += MOVE_SPEED;
 		break;
 	case Movement::DOWN:
-		focalPoint.y -= MOVE_SPEED;
+		FOCAL_POINT.y -= MOVE_SPEED;
 		break;
 	}
 }
@@ -40,15 +71,30 @@ void FractalGenerator::SetIterations(int iter)
 	ITERATIONS = iter;
 }
 
+void FractalGenerator::UpdateConstant()
+{
+	if (INCREASE_CONSTANT_X && 
+		CONSTANT.x + CONSTANT_INCREASE < MAX_CONSTANT)
+	{
+		CONSTANT.x += CONSTANT_INCREASE;
+	}
+	
+	if (INCREASE_CONSTANT_Y &&
+		CONSTANT.y + CONSTANT_INCREASE < MAX_CONSTANT)
+	{
+		CONSTANT.y += CONSTANT_INCREASE;
+	}
+}
+
 void FractalGenerator::UpdateZoom()
 {
 	switch (ZOOM)
 	{
 	case 1:
-		scale *= ZOOM_SPEED;
+		SCALE *= ZOOM_SPEED;
 		break;
 	case -1:
-		scale /= ZOOM_SPEED;
+		SCALE /= ZOOM_SPEED;
 		break;
 	}
 }
@@ -62,8 +108,8 @@ void FractalGenerator::GenerateFractal()
 	{
 		for (GLfloat x = 0; x < WIDTH; ++x)
 		{
-			vec.x = ((x - WIDTH / 2) / scale + focalPoint.x) * 4 / WIDTH;
-			vec.y = ((y - HEIGHT / 2) / scale + focalPoint.y) * 4 / HEIGHT;
+			vec.x = ((x - WIDTH / 2) / SCALE + FOCAL_POINT.x) * 4 / WIDTH;
+			vec.y = ((y - HEIGHT / 2) / SCALE + FOCAL_POINT.y) * 4 / HEIGHT;
 
 			iter = CalculateIteration(vec);
 			color = iter / ITERATIONS;
@@ -77,7 +123,6 @@ void FractalGenerator::GenerateFractal()
 float FractalGenerator::CalculateIteration(vec2 vec)
 {
 	float iter = 0.0;
-	//vec2 vec{ 0,0 };
 	while (length(vec) < 4.0 && iter < ITERATIONS)
 	{
 		vec = GetNextIteration(vec);

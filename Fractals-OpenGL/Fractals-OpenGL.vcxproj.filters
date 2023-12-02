@@ -27,7 +27,7 @@
     <ClCompile Include="LibsManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
+    <ClCompile Include="Shader.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="FractalGenerator.cpp">
@@ -68,9 +68,6 @@
     <ClInclude Include="Parameters.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="FractalGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -102,6 +99,9 @@
       <Filter>Archivos de encabezado\imgui</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiManager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
