@@ -2,13 +2,9 @@
 
 LibsManager::LibsManager()
 {
-    mainWindow = nullptr;
-    imGuiManager = nullptr;
-}
-
-LibsManager::~LibsManager()
-{
-    delete imGuiManager;
+    m_mainWindow = nullptr;
+    m_imGuiManager = nullptr;
+    m_fps = 0;
 }
 
 void LibsManager::Initialize()
@@ -20,8 +16,8 @@ void LibsManager::Initialize()
         InitialiseWindow(WIDTH, HEIGHT, MAIN_WINDOW_NAME);
 
         int bufferWidth, bufferHeight;
-        glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
-        glfwMakeContextCurrent(mainWindow);
+        glfwGetFramebufferSize(m_mainWindow, &bufferWidth, &bufferHeight);
+        glfwMakeContextCurrent(m_mainWindow);
 
         InitGLEW();
 
@@ -31,8 +27,8 @@ void LibsManager::Initialize()
         glLoadIdentity();
         glOrtho(0.0, WIDTH, 0.0, HEIGHT, -1.0, 1.0);
 
-        imGuiManager = new ImGuiManager();
-        imGuiManager->Initialize(mainWindow);
+        m_imGuiManager = new ImGuiManager();
+        m_imGuiManager->Initialize(m_mainWindow);
     }
     catch (exception ex)
     {
@@ -58,8 +54,8 @@ void LibsManager::InitOpenGL()
 
 void LibsManager::InitialiseWindow(const int width, const int height, const char* windowName)
 {
-    mainWindow = glfwCreateWindow(width, height, windowName, NULL, NULL);
-    if (!mainWindow)
+    m_mainWindow = glfwCreateWindow(width, height, windowName, NULL, NULL);
+    if (!m_mainWindow)
     {
         glfwTerminate();
         throw exception("GLFW window creation failed");
@@ -72,89 +68,43 @@ void LibsManager::InitGLEW()
 
     if (glewInit() != GLEW_OK)
     {
-        glfwDestroyWindow(mainWindow);
+        glfwDestroyWindow(m_mainWindow);
         glfwTerminate();
         throw exception("GLEW initialisation failed");
     }
 }
 
-bool LibsManager::GetWindowShouldClose()
-{
-    return glfwWindowShouldClose(mainWindow);
-}
-
-void LibsManager::SwapBuffers()
-{
-    glfwSwapBuffers(mainWindow);
-}
-
-void LibsManager::StartGUI()
-{
-    imGuiManager->StartWindow(CONF_WINDOW_NAME, (float)CONF_WIDTH, (float)CONF_HEIGHT);
-}
-
-void LibsManager::AddText(const char* text)
-{
-    imGuiManager->AddText(text);
-}
-
-void LibsManager::AddIntSlider(const char* text, int* value, int start, int end)
-{
-    imGuiManager->AddSliderInt(text, value, start, end);
-}
-
-void LibsManager::AddFloatSlider(const char* text, float* value, float start, float end)
-{
-    imGuiManager->AddSliderFloat(text, value, start, end);
-}
-
 void LibsManager::AddVec2Slider(const char* text, vec2* value, float start, float end)
 {
-    imGuiManager->AddSliderFloat(text, &value->x, start, end);
+    m_imGuiManager->AddSliderFloat(text, &value->x, start, end);
     value->y = value->x;
 }
 
-void LibsManager::AddColorPicker(const char* text, float* value)
+void LibsManager::AddRestartZoomButton(const char* text)
 {
-    imGuiManager->AddColorPicker(text, value);
-}
-
-void LibsManager::AddCheckBox(const char* text, bool* value)
-{
-    imGuiManager->AddCheckbox(text, value);
-}
-
-void LibsManager::AddSameLine()
-{
-    imGuiManager->AddSameLine();
-}
-
-void LibsManager::FinishGUI()
-{
-    imGuiManager->FinishWindow();
-}
-
-void LibsManager::RenderGUI()
-{
-    imGuiManager->RenderWindow();
+    if (AddButton(text))
+    {
+        SCALE = 1;
+    }
 }
 
 double LibsManager::GetFPS()
 {
     UpdateFPS();
-    return fps;
+    return m_fps;
 }
 
 void LibsManager::UpdateFPS()
 {
     double currentTime = glfwGetTime();
-    double deltaTime = currentTime - lastTime;
-    frameCount++;
+    double deltaTime = currentTime - m_lastTime;
+    m_frameCount++;
 
-    if (deltaTime >= 1.0) {
-        fps = frameCount / deltaTime;
+    if (deltaTime >= 1.0) 
+    {
+        m_fps = m_frameCount / deltaTime;
 
-        frameCount = 0;
-        lastTime = currentTime;
+        m_frameCount = 0;
+        m_lastTime = currentTime;
     }
 }

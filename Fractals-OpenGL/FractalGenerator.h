@@ -2,6 +2,7 @@
 
 #include "Parameters.h"
 #include "Shader.h"
+#include <vector>
 
 enum class Movement
 {
@@ -21,14 +22,20 @@ public:
 	void Display();
 	void DisplayFromShader();
 
+	void AddColor(int end, const vec3& rgb);
 	void Move(Movement type);
-	void SetIterations(int iter);
+	void SaveFractalToFile(const char* name);
+	void LoadFractalFromFile(const char* name);
 
 private:
-	Shader* fractalShader;
+	Shader* m_fractalShader;
+	float m_lastTime, m_deltaTime;
 
+	void UpdateParameters();
+	void UpdateDeltaTime();
 	void UpdateConstant();
 	void UpdateZoom();
+
 	void GenerateFractal();
 	float CalculateIteration(vec2 vec);
 	vec2 GetNextIteration(vec2 vec);

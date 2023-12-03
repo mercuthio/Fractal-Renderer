@@ -2,18 +2,22 @@
 
 FractalGenerator::FractalGenerator() 
 {
-	fractalShader = nullptr;
+	m_fractalShader = nullptr;
+	m_lastTime = 0;
+	m_deltaTime = 0;
 }
 
 FractalGenerator::FractalGenerator(const char* vShaderFile, const char* fShaderFile)
 {
-	fractalShader = new Shader();
-	fractalShader->CreateFromFiles(vShaderFile, fShaderFile);
+	m_fractalShader = new Shader();
+	m_fractalShader->CreateFromFiles(vShaderFile, fShaderFile);
+	m_lastTime = 0;
+	m_deltaTime = 0;
 }
 
 FractalGenerator::~FractalGenerator()
 {
-	delete fractalShader;
+	delete m_fractalShader;
 }
 
 void FractalGenerator::Display()
@@ -23,7 +27,7 @@ void FractalGenerator::Display()
 
 	glBegin(GL_POINTS);
 
-	UpdateZoom();
+	UpdateParameters();
 	GenerateFractal();
 
 	glEnd();
@@ -32,7 +36,7 @@ void FractalGenerator::Display()
 
 void FractalGenerator::DisplayFromShader()
 {
-	if (fractalShader == nullptr)
+	if (m_fractalShader == nullptr)
 	{
 		cout << "ERROR: FractalShader not initialized" << endl;
 		return;
@@ -41,10 +45,65 @@ void FractalGenerator::DisplayFromShader()
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	UpdateParameters();
+	m_fractalShader->UpdateParameters();
+	m_fractalShader->UseVAO();	
+}
+
+void FractalGenerator::UpdateParameters()
+{
+	UpdateDeltaTime();
 	UpdateConstant();
 	UpdateZoom();
-	fractalShader->UpdateParameters();
-	fractalShader->UseVAO();	
+}
+
+void FractalGenerator::UpdateDeltaTime()
+{
+	float now = (float)glfwGetTime();
+	m_deltaTime = now - m_lastTime;
+	m_lastTime = now;
+}
+
+void FractalGenerator::UpdateConstant()
+{
+	float constantChange = CONSTANT_INCREASE * m_deltaTime;
+
+	if (INCREASE_CONSTANT_X &&
+		CONSTANT.x + CONSTANT_INCREASE < MAX_CONSTANT)
+	{
+		CONSTANT.x += constantChange;
+	}
+
+	if (INCREASE_CONSTANT_Y &&
+		CONSTANT.y + CONSTANT_INCREASE < MAX_CONSTANT)
+	{
+		CONSTANT.y += constantChange;
+	}
+}
+
+void FractalGenerator::UpdateZoom()
+{
+	float zoomChange = (float)pow(2, ZOOM_SPEED * m_deltaTime);
+
+	switch (ZOOM)
+	{
+	case 1:
+		SCALE *= zoomChange;
+		MOVE_SPEED /= zoomChange;
+		break;
+	case -1:
+		SCALE /= zoomChange;
+		MOVE_SPEED *= zoomChange;
+		break;
+	}
+
+	SCALE = std::max(SCALE, MIN_SCALE);
+}
+
+void FractalGenerator::AddColor(int end, const vec3& rgb)
+{
+	RANGES.push_back(end * MAX_ITERATIONS);
+	COLORS.push_back(rgb);
 }
 
 void FractalGenerator::Move(Movement type)
@@ -66,37 +125,35 @@ void FractalGenerator::Move(Movement type)
 	}
 }
 
-void FractalGenerator::SetIterations(int iter)
+void FractalGenerator::SaveFractalToFile(const char* name)
 {
-	ITERATIONS = iter;
+	std::ofstream archivo(name);
+
+	if (!archivo.is_open()) {
+		cout << "Error al abrir el archivo para escritura." << endl;
+		return;
+	}
+
+	archivo << ITERATIONS << '\n';
+	archivo << CONSTANT.x << '\n';
+	archivo << CONSTANT.y << '\n';
+
+	archivo.close();
 }
 
-void FractalGenerator::UpdateConstant()
+void FractalGenerator::LoadFractalFromFile(const char* name)
 {
-	if (INCREASE_CONSTANT_X && 
-		CONSTANT.x + CONSTANT_INCREASE < MAX_CONSTANT)
-	{
-		CONSTANT.x += CONSTANT_INCREASE;
-	}
-	
-	if (INCREASE_CONSTANT_Y &&
-		CONSTANT.y + CONSTANT_INCREASE < MAX_CONSTANT)
-	{
-		CONSTANT.y += CONSTANT_INCREASE;
-	}
-}
+	std::ifstream archivo(name);
 
-void FractalGenerator::UpdateZoom()
-{
-	switch (ZOOM)
-	{
-	case 1:
-		SCALE *= ZOOM_SPEED;
-		break;
-	case -1:
-		SCALE /= ZOOM_SPEED;
-		break;
+	if (!archivo.is_open()) {
+		cout << "Error al abrir el archivo para lectura." << endl;
 	}
+
+	archivo >> ITERATIONS;
+	archivo >> CONSTANT.x;
+	archivo >> CONSTANT.y;
+
+	archivo.close();
 }
 
 void FractalGenerator::GenerateFractal()

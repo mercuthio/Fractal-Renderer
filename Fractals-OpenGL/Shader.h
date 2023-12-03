@@ -11,19 +11,17 @@ class Shader
 {
 public:
 	Shader();
-	~Shader();
+	~Shader() { ClearShader(); }
 
 	void CreateFromFiles(const char* vShader, const char* fShader);
-	GLuint GetProjectionLocation();
-	GLuint GetModelLocation();
 
 	void UpdateParameters();
-	void UseShader();
+	void UseShader() { glUseProgram(m_shaderID); }
 	void UseVAO();
 	void ClearShader();
 
 private:
-	GLuint shaderID, uniformProjection, uniformModel, VAO, VBO;
+	GLuint m_shaderID, m_uniformProjection, m_uniformModel, m_VAO, m_VBO, m_bufferObjRanges, m_bufferTextRanges, m_bufferObjColors, m_bufferTextColors, m_bufferObjRangesTotal, m_bufferTextRangesTotal;
 
 	void LoadShaderFromFile(const char*& filename, char*& result);
 	void CompileShader(const char* vertexCode, const char* fragmentCode);

@@ -36,9 +36,6 @@
     <ClCompile Include="Parameters.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\lib\IMGUI\imgui.cpp">
       <Filter>Archivos de origen\imgui</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>Archivos de origen\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\IMGUI\imgui_widgets.cpp">
+      <Filter>Archivos de origen\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
       <Filter>Archivos de origen\imgui</Filter>
     </ClCompile>
   </ItemGroup>

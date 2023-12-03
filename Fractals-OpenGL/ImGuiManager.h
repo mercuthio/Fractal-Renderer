@@ -12,23 +12,24 @@ using namespace ImGui;
 class ImGuiManager
 {
 public:
-	ImGuiManager();
+	ImGuiManager() {}
 	~ImGuiManager();
 
 	void Initialize(GLFWwindow* mainWindow);
 	void StartWindow(const char* text, float width, float height);
 
-	void AddText(const char* text);
-	void AddSliderInt(const char* text, int *value, int start, int end);
-	void AddSliderFloat(const char* text, float* value, float start, float end);
-	void AddColorPicker(const char* text, float* value);
-	void AddCheckbox(const char* text, bool* value);
-	void AddSameLine();
+	void AddText(const char* text) { Text(text); }
+	void AddSliderInt(const char* text, int* value, int start, int end) { SliderInt(text, value, start, end); }
+	void AddSliderFloat(const char* text, float* value, float start, float end) { SliderFloat(text, value, start, end); }
+	void AddColorPicker(const char* text, float* value) { ColorPicker3(text, (float*)&value); }
+	void AddCheckbox(const char* text, bool* value) { Checkbox(text, value); }
+	bool AddButton(const char* text) { return Button(text); }
+	void AddTextField(const char* text, char* content) { InputText(text, content, sizeof(content), 20); }
+	void AddSameLine() { SameLine(); }
 
 	void FinishWindow();
-	void RenderWindow();
+	void RenderWindow() { ImGui_ImplOpenGL3_RenderDrawData(GetDrawData()); }
 
 private:
-
 };
 

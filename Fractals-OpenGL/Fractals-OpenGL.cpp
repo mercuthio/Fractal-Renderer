@@ -3,8 +3,7 @@
 #include <string>
 
 FractalGenerator* fractal = nullptr;
-
-double lastTime = 0.0f;
+LibsManager* libsManager = nullptr;
 
 void Reshape(GLFWwindow* window, int width, int height) 
 {
@@ -13,7 +12,7 @@ void Reshape(GLFWwindow* window, int width, int height)
     WIDTH = width;
     HEIGHT = height;
 
-    fractal->Display();
+    fractal->DisplayFromShader();
 }
 
 void ProcessKey(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -38,41 +37,45 @@ void ProcessKey(GLFWwindow* window, int key, int scancode, int action, int mods)
     }
 }
 
+void DisplayGUI()
+{
+    string strFps = "FPS: " + to_string(static_cast<int>(libsManager->GetFPS()));
+
+    libsManager->StartGUI();
+
+    libsManager->AddText(strFps.c_str());
+
+    libsManager->AddIntSlider("Iterations", &ITERATIONS, 2, MAX_ITERATIONS);
+
+    libsManager->AddFloatSlider("CX  ", &CONSTANT.x, MIN_CONSTANT, MAX_CONSTANT);
+    libsManager->AddSameLine();
+    libsManager->AddCheckBox("###Checkbox", &INCREASE_CONSTANT_X);
+
+    libsManager->AddFloatSlider("CY  ", &CONSTANT.y, MIN_CONSTANT, MAX_CONSTANT);
+    libsManager->AddSameLine();
+    libsManager->AddCheckBox("###Checkbox2", &INCREASE_CONSTANT_Y);
+
+    libsManager->AddIntSlider("Zoom", &ZOOM, -1, 1);
+    libsManager->AddSameLine();
+    libsManager->AddRestartZoomButton("Rest");
+
+    libsManager->FinishGUI();
+}
+
 int main()
 {
-    LibsManager* libsManager = new LibsManager();
+    libsManager = new LibsManager();
     libsManager->Initialize();
     libsManager->SetResizeCallBack(Reshape);
     libsManager->SetKeyCallBack(ProcessKey);
 
     fractal = new FractalGenerator("shaders/vShader.sh", "shaders/fShader.sh");
-    
-    string strFps;
 
     while (!libsManager->GetWindowShouldClose())
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        strFps = "FPS: " + to_string(static_cast<int>(libsManager->GetFPS()));
 
-        //GUI
-        libsManager->StartGUI();
-
-        libsManager->AddText(strFps.c_str());
-
-        libsManager->AddIntSlider("Iterations", &ITERATIONS, 2, MAX_ITERATIONS);
-
-        libsManager->AddFloatSlider("CX", &CONSTANT.x, MIN_CONSTANT, MAX_CONSTANT);
-        libsManager->AddSameLine();
-        libsManager->AddCheckBox("###Checkbox", &INCREASE_CONSTANT_X);
-
-        libsManager->AddFloatSlider("CY", &CONSTANT.y, MIN_CONSTANT, MAX_CONSTANT);
-        libsManager->AddSameLine();
-        libsManager->AddCheckBox("###Checkbox2", &INCREASE_CONSTANT_Y);
-
-        libsManager->AddIntSlider("Zoom", &ZOOM, -1, 1);
-        libsManager->FinishGUI();
-
+        DisplayGUI();
         fractal->DisplayFromShader();
 
         libsManager->RenderGUI();
