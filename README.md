@@ -1,5 +1,5 @@
 # Fractal Renderer
-Tool implemented in OpenGl to render fractals based on configurable parameters with a user friendly GUI.
+Tool implemented in OpenGL to render fractals based on configurable parameters with a user friendly GUI.
 
 The tool uses OpenGL and GLEW for fractal rendering. GLFW is used for the main window management and ImGUI for the configuration interface. 
 
