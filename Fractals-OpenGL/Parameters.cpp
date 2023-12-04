@@ -3,7 +3,7 @@
 GLint WIDTH = 1080;
 GLint HEIGHT = 720;
 extern int CONF_WIDTH = 270;
-extern int CONF_HEIGHT = 140;
+extern int CONF_HEIGHT = 165;
 
 int ITERATIONS = 300;
 const int MAX_ITERATIONS = 600;
@@ -27,6 +27,6 @@ const char* CONF_WINDOW_NAME = "Configuration";
 
 float MOVE_SPEED = 1.3f;
 float* COLOR = new float[3]{ 1.0f, 1.0f, 1.0f};
-vector<int> RANGES;
+vector<float> RANGES;
 vector<vec3> COLORS;
-vector<int> RANGES_TOTALS{0};
+vector<float> RANGES_TOTALS;

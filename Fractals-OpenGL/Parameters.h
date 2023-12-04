@@ -39,8 +39,9 @@ extern const char* CONF_WINDOW_NAME;
 
 extern float MOVE_SPEED;
 extern float* COLOR;
-extern vector<int> RANGES;
+
+extern vector<float> RANGES;
 extern vector<vec3> COLORS;
-extern vector<int> RANGES_TOTALS;
+extern vector<float> RANGES_TOTALS;
 
 extern GLuint VAO, VBO, shader;

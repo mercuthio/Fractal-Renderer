@@ -22,7 +22,7 @@ public:
 	void Display();
 	void DisplayFromShader();
 
-	void AddColor(int end, const vec3& rgb);
+	void AddColor(float end, const vec3& rgb);
 	void Move(Movement type);
 	void SaveFractalToFile(const char* name);
 	void LoadFractalFromFile(const char* name);

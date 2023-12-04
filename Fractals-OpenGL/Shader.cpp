@@ -8,12 +8,9 @@ Shader::Shader()
     m_uniformProjection = 0;
     m_VAO = 0;
     m_VBO = 0;
-    m_bufferObjRanges = 0;
-    m_bufferTextRanges = 0;
-    m_bufferObjColors = 0;
-    m_bufferTextColors = 0;
-    m_bufferObjRangesTotal = 0;
-    m_bufferTextRangesTotal = 0;
+    rangesBuffer = 0;
+    rangesTotalBuffer = 0;
+    colorBuffer = 0;
 }
 
 void Shader::LoadShaderFromFile(const char*& filename, char*& result)
@@ -52,36 +49,17 @@ void Shader::CreateFromFiles(const char* vShader, const char* fShader)
 
 void Shader::UpdateParameters()
 {
-    glUseProgram(m_shaderID);
+    glUseProgram(m_shaderID);    
 
-    //Ranges
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRanges);
-    glBufferSubData(GL_TEXTURE_BUFFER, 0, RANGES.size() * sizeof(int), RANGES.data());
+    glBindBuffer(GL_UNIFORM_BUFFER, rangesBuffer);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, RANGES.size() * sizeof(float), RANGES.data());
 
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextRanges);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRanges);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, m_bufferTextRanges);
-
-    //RangesTotal
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRangesTotal);
-    glBufferSubData(GL_TEXTURE_BUFFER, 0, RANGES_TOTALS.size() * sizeof(int), RANGES_TOTALS.data());
-
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextRangesTotal);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRangesTotal);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, m_bufferTextRangesTotal);
-
-    //Colors
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjColors);
-    glBufferSubData(GL_TEXTURE_BUFFER, 0, COLORS.size() * sizeof(vec3), COLORS.data());
-
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextColors);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjColors);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_RGB32F, m_bufferTextColors);
-
+    glBindBuffer(GL_UNIFORM_BUFFER, colorBuffer);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, COLORS.size() * sizeof(vec3), COLORS.data());
 
     glUniform2f(glGetUniformLocation(m_shaderID, "resolution"), (float)WIDTH, (float)HEIGHT);
 
-    glUniform1i(glGetUniformLocation(m_shaderID, "maxIterations"), ITERATIONS);
+    glUniform1i(glGetUniformLocation(m_shaderID, "iterations"), ITERATIONS);
 
     glUniform1f(glGetUniformLocation(m_shaderID, "scale"), SCALE);
 
@@ -172,38 +150,25 @@ void Shader::CreateVertex()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glGenTextures(1, &m_bufferTextRanges);
-    glGenTextures(1, &m_bufferTextRangesTotal);
-    glGenTextures(1, &m_bufferTextColors);
-
-    glGenBuffers(1, &m_bufferObjRanges);
-    glGenBuffers(1, &m_bufferObjRangesTotal);
-    glGenBuffers(1, &m_bufferObjColors);
-
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextRanges);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRanges);
-    glBufferData(GL_TEXTURE_BUFFER, RANGES.size() * sizeof(int), RANGES.data(), GL_STATIC_DRAW);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, m_bufferObjRanges);
-
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextRangesTotal);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjRangesTotal);
-    glBufferData(GL_TEXTURE_BUFFER, RANGES_TOTALS.size() * sizeof(int), RANGES_TOTALS.data(), GL_STATIC_DRAW);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_R32I, m_bufferObjRangesTotal);
-
-    glBindTexture(GL_TEXTURE_BUFFER, m_bufferTextColors);
-    glBindBuffer(GL_TEXTURE_BUFFER, m_bufferObjColors);
-    glBufferData(GL_TEXTURE_BUFFER, COLORS.size() * sizeof(vec3), COLORS.data(), GL_STATIC_DRAW);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_RGB32F, m_bufferObjColors);
-
     glUseProgram(m_shaderID);
 
-    glUniform1i(glGetUniformLocation(m_shaderID, "ranges"), 0);
-    glUniform1i(glGetUniformLocation(m_shaderID, "rangesTotal"), 1);
-    glUniform1i(glGetUniformLocation(m_shaderID, "colors"), 2);
+    glGenBuffers(1, &rangesBuffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, rangesBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, 5 * sizeof(float), RANGES.data(), GL_STATIC_DRAW);
+
+    glUniformBlockBinding(m_shaderID, glGetUniformBlockIndex(m_shaderID, "rangesBlock"), 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, rangesBuffer);
+
+    glGenBuffers(1, &colorBuffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, colorBuffer);
+    glBufferData(GL_UNIFORM_BUFFER, 5 * sizeof(vec3), COLORS.data(), GL_STATIC_DRAW);
+
+    glUniformBlockBinding(m_shaderID, glGetUniformBlockIndex(m_shaderID, "colorsBlock"), 1);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, colorBuffer);
 
     glUniform2f(glGetUniformLocation(m_shaderID, "resolution"), (float)WIDTH, (float)HEIGHT);
     glUniform2f(glGetUniformLocation(m_shaderID, "viewPort"), 3.0f, 3.0f);
-    glUniform1i(glGetUniformLocation(m_shaderID, "maxIterations"), ITERATIONS);
+    glUniform1i(glGetUniformLocation(m_shaderID, "iterations"), ITERATIONS);
     glUniform1f(glGetUniformLocation(m_shaderID, "scale"), 1);
     glUniform2f(glGetUniformLocation(m_shaderID, "constant"), (float)CONSTANT.x, (float)CONSTANT.y);
 }

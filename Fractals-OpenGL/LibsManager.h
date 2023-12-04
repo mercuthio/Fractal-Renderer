@@ -27,7 +27,7 @@ public:
 	void AddIntSlider(const char* text, int* value, int start, int end) { m_imGuiManager->AddSliderInt(text, value, start, end); }
 	void AddFloatSlider(const char* text, float* value, float start, float end) { m_imGuiManager->AddSliderFloat(text, value, start, end); }
 	void AddVec2Slider(const char* text, vec2* value, float start, float end);
-	void AddColorPicker(const char* text, float* value) { m_imGuiManager->AddColorPicker(text, value); }
+	void AddColorPicker();
 	void AddCheckBox(const char* text, bool* value) { m_imGuiManager->AddCheckbox(text, value); }
 	bool AddButton(const char* text) { return m_imGuiManager->AddButton(text); }
 	void AddRestartZoomButton(const char* text);

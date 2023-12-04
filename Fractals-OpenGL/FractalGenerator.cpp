@@ -100,7 +100,7 @@ void FractalGenerator::UpdateZoom()
 	SCALE = std::max(SCALE, MIN_SCALE);
 }
 
-void FractalGenerator::AddColor(int end, const vec3& rgb)
+void FractalGenerator::AddColor(float end, const vec3& rgb)
 {
 	RANGES.push_back(end * MAX_ITERATIONS);
 	COLORS.push_back(rgb);

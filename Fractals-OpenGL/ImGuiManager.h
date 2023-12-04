@@ -21,7 +21,7 @@ public:
 	void AddText(const char* text) { Text(text); }
 	void AddSliderInt(const char* text, int* value, int start, int end) { SliderInt(text, value, start, end); }
 	void AddSliderFloat(const char* text, float* value, float start, float end) { SliderFloat(text, value, start, end); }
-	void AddColorPicker(const char* text, float* value) { ColorPicker3(text, (float*)&value); }
+	void AddColorPicker(const char* buttonName, const char* popupName, ImVec4& color);
 	void AddCheckbox(const char* text, bool* value) { Checkbox(text, value); }
 	bool AddButton(const char* text) { return Button(text); }
 	void AddTextField(const char* text, char* content) { InputText(text, content, sizeof(content), 20); }

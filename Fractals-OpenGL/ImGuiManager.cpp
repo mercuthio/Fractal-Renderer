@@ -52,3 +52,17 @@ void ImGuiManager::FinishWindow()
     End();
     Render();
 }
+
+void ImGuiManager::AddColorPicker(const char* buttonName, const char* popupName, ImVec4& color)
+{
+    ImVec2 buttonSize(28.5f, 20.0f);
+    if (ImGui::ColorButton(buttonName, color, 0, buttonSize)) {
+        ImGui::OpenPopup(popupName);
+    }
+
+    if (ImGui::BeginPopup(popupName)) {
+        ImGui::ColorPicker4("Pick a Color", (float*)&color, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputRGB);
+
+        ImGui::EndPopup();
+    }
+}

@@ -59,6 +59,8 @@ void DisplayGUI()
     libsManager->AddSameLine();
     libsManager->AddRestartZoomButton("Rest");
 
+    libsManager->AddColorPicker();
+
     libsManager->FinishGUI();
 }
 
@@ -70,6 +72,12 @@ int main()
     libsManager->SetKeyCallBack(ProcessKey);
 
     fractal = new FractalGenerator("shaders/vShader.sh", "shaders/fShader.sh");
+
+    fractal->AddColor(0.0f, vec3(1, 1, 1));
+    fractal->AddColor(0.25f, vec3(1, 1, 1));
+    fractal->AddColor(0.5f, vec3(1, 1, 1));
+    fractal->AddColor(0.75f, vec3(1, 1, 1));
+    fractal->AddColor(1.0f, vec3(1, 1, 1));
 
     while (!libsManager->GetWindowShouldClose())
     {

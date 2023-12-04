@@ -80,6 +80,25 @@ void LibsManager::AddVec2Slider(const char* text, vec2* value, float start, floa
     value->y = value->x;
 }
 
+void LibsManager::AddColorPicker()
+{
+    for (int colorIndx = 0; colorIndx < 5; colorIndx++)
+    {
+        ImVec4 aux;
+        aux.x = COLORS[colorIndx].x;
+        aux.y = COLORS[colorIndx].y;
+        aux.z = COLORS[colorIndx].z;
+
+        m_imGuiManager->AddColorPicker("button" + colorIndx, "popup" + colorIndx, aux);
+        m_imGuiManager->AddSameLine();
+
+        COLORS[colorIndx].x = aux.x;
+        COLORS[colorIndx].y = aux.y;
+        COLORS[colorIndx].z = aux.z;
+    }
+
+}
+
 void LibsManager::AddRestartZoomButton(const char* text)
 {
     if (AddButton(text))
