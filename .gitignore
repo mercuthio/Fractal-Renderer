@@ -1,95 +1,51 @@
-# Archivos generados automáticamente
-bin/
-obj/
-binaries/
-*.suo
+# Prerequisites
+*.d
+*.log
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+*.ini
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Folder
+/lib/
+
+#Visual studio
+*.sln
+*.vcxproj
+*.vcproj
+*.pdb
 *.user
-*.sln.docstates
-
-# Archivos de configuración específicos de Visual Studio 2019
-.vs2019/
-*.csproj.user
-*.userprefs
-*.vscode/
-.vs/
-
-# Archivos de configuración del entorno local
-launchSettings.json
-
-# Dependencias de terceros (ejemplos para NuGet y npm)
-packages/
-node_modules/
-
-# Archivos de base de datos locales
-*.mdf
-*.ldf
-
-# Archivos temporales
-[Tt]emp/
-[Tt]est[Rr]esults/
-
-# Archivos de compilación
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Ll]og/
-[Ll]ogs/
-
-# Archivos de configuración específicos del entorno (pueden variar según el proyecto)
-appsettings.json
-web.config
-
-# Archivos de documentación generados
-docfx_project/
-_documentation/
-
-# Archivos de pruebas
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-
-# Archivos de configuración del control de versiones
-.gitignore
-.gitattributes
-
-# Archivos sensibles
-*.pem
-*.cer
-*.pfx
-*.key
-*.snk
-*.der
-*.crt
-
-# Archivos de usuario
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Archivos de respaldo y versiones antiguas
-_backup*/
-_backup*/
-*.bak
-*.backup
-*.swp
-*~.nib
-*.part
-*.mov
-
-# Dependencias de desarrollo (por ejemplo, Eclipse, IntelliJ, etc.)
-.settings/
-
-# Archivos de configuración de JetBrains
-.idea/
-
-# Archivos de configuración de Visual Studio Code
 .vscode/
-
-# Archivos de configuración de Sublime Text
-.sublime-project
-.sublime-workspace
+*.filters
+*.recipe
+*.iobj
+*.ipdb
+*.tlog
+*.lastbuildstate
